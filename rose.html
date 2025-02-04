@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Rose Day</title>
+    <style>
+        body {
+            background-color: #ffe6e6;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            position: relative;
+            height: 100vh;
+            z-index: 2;
+        }
+        h1 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: clamp(2rem, 5vw, 3em);
+            color: #ff3366;
+            position: relative;
+            z-index: 2;
+        }
+        .animation-container, .cursor-effects {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .butterfly, .heart, .sparkle {
+            position: absolute;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            opacity: 0.6;
+            animation-timing-function: ease-in-out;
+        }
+        @keyframes moveRealistic {
+            0% { transform: translate(0, 0) scale(0.8); opacity: 1; }
+            50% { transform: translate(50px, -75px) scale(1); }
+            100% { transform: translate(100px, -150px) scale(0.8); opacity: 0; }
+        }
+        .cursor-effect {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, rgba(255, 51, 102, 0.8), rgba(255, 51, 102, 0.2));
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: sparkle 0.6s ease-out forwards;
+            box-shadow: 0 0 8px rgba(255, 51, 102, 0.6), 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+        @keyframes sparkle {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Rose Day Honey!</h1>
+    </div>
+    <div class="animation-container"></div>
+    <div class="cursor-effects"></div>
+    <script>
+        function createAnimation(type, duration, left, top) {
+            let element = document.createElement("div");
+            element.className = type;
+            element.style.left = left + "px";
+            element.style.top = top + "px";
+            element.style.animation = `moveRealistic ${duration}s linear forwards`;
+            element.innerHTML = (type === 'heart') ? '❤️' : (type === 'butterfly') ? '🦋' : '✨';
+            document.querySelector(".animation-container").appendChild(element);
+            setTimeout(() => element.remove(), duration * 1000);
+        }
+        setInterval(() => {
+            createAnimation('butterfly', 12, Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+            createAnimation('heart', 11, Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+            createAnimation('sparkle', 10, Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+        }, 4000);
+        
+        const cursorEffects = document.querySelector('.cursor-effects');
+        document.addEventListener('mousemove', (e) => {
+            const cursorEffect = document.createElement('div');
+            cursorEffect.className = 'cursor-effect';
+            cursorEffect.style.left = e.clientX + 'px';
+            cursorEffect.style.top = e.clientY + 'px';
+            cursorEffects.appendChild(cursorEffect);
+            setTimeout(() => cursorEffect.remove(), 600);
+        });
+    </script>
+</body>
+</html>
